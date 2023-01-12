@@ -10,12 +10,10 @@
     <meta name="author" content="">
     <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
         <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
-        <!-- <py-env>
-            - openpyxl
-            - requests
+        <py-env>
             - Paths:
-                - ./main.py
-        </py-env> -->
+                - ./subway.py
+        </py-env>
 
     <title>Freelancer - Start Bootstrap Theme</title>
 
@@ -355,12 +353,12 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h2>역명 : 길동역</h2>
+                            <h2 id="station_info"></h2>
                             <hr class="star-primary">
                             <img src="https://www.sisul.or.kr/open_content/skydome/images/img_subway.png" class="img-responsive img-centered" alt="">
                             <p id="arvlMsg2"></p>
                             <ul class="list-inline item-details">
-                                <li>남은 예상시간:
+                                <li>남은 예정시간:
                                     <a id="left_time"></a>
                                 </li>
                                 <li>열차상황:
