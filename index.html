@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en">            
 
 <head>
 
@@ -8,6 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
+    <script defer src="https://pyscript.net/alpha/pyscript.js"></script>
+        <link rel="stylesheet" href="https://unpkg.com/@picocss/pico@latest/css/pico.min.css">
+        <!-- <py-env>
+            - openpyxl
+            - requests
+            - Paths:
+                - ./main.py
+        </py-env> -->
 
     <title>Freelancer - Start Bootstrap Theme</title>
 
@@ -197,7 +205,7 @@
                 <div class="col-lg-8 col-lg-offset-2">
                     <!-- To configure the contact form email address, go to mail/contact_me.php and update the email address in the PHP file on line 19. -->
                     <!-- The form should work on most web servers, but if the form is not working you may need to configure your web server differently. -->
-                    <form name="sentMessage" id="contactForm" action="localhost:6974">
+                    <form name="sentMessage" id="contactForm" novalidate>
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label for="name">Name</label>
@@ -308,9 +316,10 @@
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
                             <!-- 첫번째-->
-                            <h2>하이트진로</h2>
+                            <h1>가격</h1>
                             <hr class="star-primary">
                             <img src="https://ssl.pstatic.net/imgfinance/chart/mobile/day/000080_end.png?1672978100000" class="img-responsive img-centered" alt="">
+
                             <p>하이트 진로 회사 사이트 <a href="https://www.hitejinro.com/">바로가기</a></p>
                             <ul class="list-inline item-details">
                                 <!-- <li>Client:
@@ -333,6 +342,7 @@
             </div>
         </div>
     </div>
+    <py-script src="./subway.py"></py-script>
     <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -345,21 +355,20 @@
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h2>Project Title</h2>
+                            <h2>길동역</h2>
                             <hr class="star-primary">
-                            <img src="img/portfolio/cake.png" class="img-responsive img-centered" alt="">
-                            <p>Use this area of the page to describe your project. The icon above is part of a free icon set by <a href="https://sellfy.com/p/8Q9P/jV3VZ/">Flat Icons</a>. On their website, you can download their free set with 16 icons, or you can purchase the entire set with 146 icons for only $12!</p>
+                            <img src="https://www.sisul.or.kr/open_content/skydome/images/img_subway.png" class="img-responsive img-centered" alt="">
+                            <p id="arvlMsg2"></p>
                             <ul class="list-inline item-details">
-                                <li>Client:
-                                    <strong><a href="http://startbootstrap.com">Start Bootstrap</a>
+                                <li>남은 예정시간:
+                                    <a id="left_time"></a>
+                                </li>
+                                <li>열차상황:
+                                    <strong><a id="arvlCd"></a>
                                     </strong>
                                 </li>
-                                <li>Date:
-                                    <strong><a href="http://startbootstrap.com">April 2014</a>
-                                    </strong>
-                                </li>
-                                <li>Service:
-                                    <strong><a href="http://startbootstrap.com">Web Development</a>
+                                <li>현재위치:
+                                    <strong><a id="arvlMsg3"></a>
                                     </strong>
                                 </li>
                             </ul>
