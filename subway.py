@@ -85,6 +85,7 @@ async def request(url: str, method: str = "GET", body: Optional[str] = None,
 async def 지하철():
     import datetime
     
+    
     api_key = "73634352447275703130335464717766"
     count = 0
     station_info = '길동'
@@ -93,15 +94,12 @@ async def 지하철():
     task1 = asyncio.create_task(request(url=url,method='GET'))
     await task1
 
-async def start():
+
+async def main():
     while True:
         await 지하철()
-        asyncio.sleep(5) 
-asyncio.run(start())
-        
+        await asyncio.sleep(5)
 
-
-
-
+asyncio.ensure_future(main())
  
 ####
