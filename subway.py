@@ -96,6 +96,7 @@ async def 지하철():
 
 While True:
     지하철()
+    time.sleep(5)
 
 
 
