@@ -94,8 +94,8 @@ async def 지하철():
     await task1
 
 
-
-지하철()
+While True:
+    지하철()
 
 
 
