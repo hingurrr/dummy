@@ -93,10 +93,12 @@ async def 지하철():
     task1 = asyncio.create_task(request(url=url,method='GET'))
     await task1
 
-
-while True:
-    지하철()
-    time.sleep(1) 
+async def start():
+    while True:
+        await 지하철()
+        asyncio.sleep(5) 
+asyncio.run(start())
+        
 
 
 
