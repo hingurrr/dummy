@@ -98,7 +98,7 @@ async def foo():
         await asyncio.sleep(1) 
         task2 = asyncio.create_task(지하철())
         await task2
-pyscript.run_until_complete(foo())
+foo()
 
 
 
