@@ -94,7 +94,7 @@ async def 지하철():
     await task1
 
 
-While True:
+while True:
     지하철()
     time.sleep(5)
 
