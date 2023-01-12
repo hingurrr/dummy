@@ -46,6 +46,7 @@ async def request(url: str, method: str = "GET", body: Optional[str] = None,
         trainLineNm = trainLineNm[0:location - 1]
         subwayList = x['subwayList']  # 호선 구분 100+x
         statnNm = x['statnNm']  # 지하철역명
+        Element('station_info').element.text =statnNm+"역"
         ordkey = x[
             'ordkey']  # 도착예정열차순번(상하행코드(1자리), 순번(첫번째, 두번째 열차 , 1자리), 첫번째 도착예정 정류장 - 현재 정류장(3자리), 목적지 정류장, 급행여부(1자리))
         barvlDt = x['barvlDt']  # 도착남은시간 (단위 : 초)
@@ -96,10 +97,16 @@ async def 지하철():
 
 
 async def main():
+    Element('arvlCd').element.text =2222
     while True:
         await 지하철()
         await asyncio.sleep(5)
+print(1)
 
 asyncio.ensure_future(main())
+
+
+
+
  
 ####
