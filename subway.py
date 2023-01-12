@@ -95,10 +95,10 @@ async def 지하철():
 
 async def foo(): 
     while True: 
-        await asyncio.sleep(1) 
         task2 = asyncio.create_task(지하철())
         await task2
-foo()
+        await asyncio.sleep(1) 
+asyncio.run(foo())
 
 
 
