@@ -87,7 +87,7 @@ async def 지하철():
     import datetime
     
     
-    api_key = "7268667a6a72757032314d4e775141"
+    api_key = "7268667a6a72757032314d4e77533141"
     count = 0
     station_info = '길동'
     
