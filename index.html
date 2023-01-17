@@ -118,7 +118,7 @@
                             </div>
                         </div>
                         <!-- 2번째 이미지 -->
-                        <img src="img/portfolio/yp.png" class="img-responsive" alt="yp_resort">
+                        <img src="img/portfolio/subway.png" class="img-responsive" alt="yp_resort">
                     </a>
                 </div>
                 <div class="col-sm-4 portfolio-item">
@@ -350,14 +350,19 @@
                 </div>
             </div>
             <div class="container">
+                <h1 id = "output_text"></h1>
                 <div class="row">
                     <div class="col-lg-8 col-lg-offset-2">
                         <div class="modal-body">
-                            <h2 id="station_info"></h2>
+                            
                             <hr class="star-primary">
+                            
                             <img src="https://www.sisul.or.kr/open_content/skydome/images/img_subway.png" class="img-responsive img-centered" alt="">
-                            <p id="arvlMsg2"></p>
                             <ul class="list-inline item-details">
+                                <div class="left_body">
+                                    <h2 id="section_time">서비스를 이용하시려면 버튼을 눌러주세요.</h2>
+                                </div>
+                                
                                 <li>남은 예정시간:
                                     <a id="left_time"></a>
                                 </li>
@@ -369,8 +374,16 @@
                                     <strong><a id="arvlMsg3"></a>
                                     </strong>
                                 </li>
+                                <li>상태 : 
+                                    <a id="token"></a>
+                                </li>
+                               
+                                <button id = "add_text" class="btn btn-warning" pys-onClick ="function_add_text">시작</button>
+                                <!-- <button type="button" class="btn btn-warning" pys-onClick ="function_sadd_text">NEXT</button> -->
+                                <button id = "clos_text" class="btn btn-danger" pys-onClick ="close_act" data-dismiss="modal" >닫기</button>
+                                
                             </ul>
-                            <button type="button" class="btn btn-default" data-dismiss="modal"><i class="fa fa-times"></i> Close</button>
+                            
                         </div>
                     </div>
                 </div>
