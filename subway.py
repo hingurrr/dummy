@@ -4,11 +4,59 @@ from pyodide.http import pyfetch, FetchResponse
 from typing import Optional, Any
 import json
 import datetime
+import random
+tt =Element('section_time')
+token_html = Element('token')
+bt_1 = Element('add_text')
 
+
+count_list = []
+
+
+output_text = Element("output_text")
+count_num = 1
+close_token = 0
+# html 에서 생성한 ID "add_text" 의 버튼이 눌렸을 때 호출될 함수
+def close_act(*args): 
+    global close_token
+    close_token =1
+    global station_info
+    station_info = ""
+    
+    
+def function_add_text(*args):
+    
+    x2 = random.randrange(1, 999)
+    global global_key
+    key = x2
+    global_key = x2
+    
+    
+
+    
+# output_text 객체의 text 값을 input_text의 값으로 지정
+    global close_token
+    close_token = 0
+    global station_info
+    station_info = "길동"
+    global count_num
+    count_num += 1
+    if count_num%2!=0:
+        station_info = "중곡"
+        next_data="길동"
+    output_text.element.innerText = station_info
+
+    if count_num%2==0:
+        next_data = "중곡"
+    bt_1.element.innerText = f"{next_data}역 확인하기"
+    
+    asyncio.ensure_future(main(key))
+# 함수가 실행된 후 input_text의 값을 초기화
+   
 async def request(url: str, method: str = "GET", body: Optional[str] = None,
                   headers: Optional[dict[str, str]] = None, **fetch_kwargs: Any) -> FetchResponse:
     now = datetime.datetime.now()
-    station_info = "길동"
+    # station_info = "길동"
     list = {'0': station_info + '역 진입', '1': station_info + '역 도착', '2': station_info + '역 출발', '3': '전역출발',
                 '4': '전역진입', '5': '전역도착', '99': '운행중'}
     """
@@ -46,7 +94,7 @@ async def request(url: str, method: str = "GET", body: Optional[str] = None,
         trainLineNm = trainLineNm[0:location - 1]
         subwayList = x['subwayList']  # 호선 구분 100+x
         statnNm = x['statnNm']  # 지하철역명
-        Element('station_info').element.text =statnNm+"역"
+        
         ordkey = x[
             'ordkey']  # 도착예정열차순번(상하행코드(1자리), 순번(첫번째, 두번째 열차 , 1자리), 첫번째 도착예정 정류장 - 현재 정류장(3자리), 목적지 정류장, 급행여부(1자리))
         barvlDt = x['barvlDt']  # 도착남은시간 (단위 : 초)
@@ -69,42 +117,74 @@ async def request(url: str, method: str = "GET", body: Optional[str] = None,
         # seconds 통해 시간 차이 정보를 초 단위로 가져올 수 있다.
         
         if ordkey[0:1] == find_data[station_info]:
+            if num_subway=="1":
             # 상행
             
-            output = "\n"+ trainLineNm, num_subway + '번째열차\n남은 예정시간 :', str(int(barvlDt) - diff.seconds) + "초\n",arvlMsg2, "\n현재위치 :", arvlMsg3, "\n열차 상황 :", arvlCd
-            left_time = str(int(barvlDt) - diff.seconds) + "초"
-            left_time_1 = Element('left_time')
-            left_time_1.element.text =left_time
-            arvlCd_html = Element('arvlCd').element.text =arvlCd
-            arvlMsg3_html = Element('arvlMsg3').element.text =arvlMsg3
-            arvlMsg2_html = Element('arvlMsg2').element.text =arvlMsg2
-         
-    
-    
-    return output
+                output = "\n"+ trainLineNm, num_subway + '번째열차\n남은 예정시간 :', str(int(barvlDt) - diff.seconds) + "초\n",arvlMsg2, "\n현재위치 :", arvlMsg3, "\n열차 상황 :", arvlCd
+                left_time = str(int(barvlDt) - diff.seconds) + "초"
+                left_time_1 = Element('left_time')
+                left_time_1.element.text =left_time
+                # st_info = Element('station_info').element.text =station_info
+                arvlCd_html = Element('arvlCd').element.text =arvlCd
+                arvlMsg3_html = Element('arvlMsg3').element.text =arvlMsg3
+                tt.element.innerText =arvlMsg2           
+    return
+def counting_used():
+    day = datetime.datetime.now().day
+    try:
+        if count_list[0]==day:  
+            change_x = count_list[1]
+            change_x += 1
+            count_list[1] = change_x           
+            if change_x >= 1000:
+                api_token= 2
+                return api_token
+        elif count_list[0]!=day:
+            del count_list[1]
+            del count_list[0]
+            count_list.append(day)
+            count_list.append(1)
+    except IndexError as e:
+        count_list.append(day)
+        count_list.append(1)
 
 async def 지하철():
     import datetime
     
+    api_token = counting_used()
+    if api_token == 2:
+        api_key = '7268667a6a72757032314d4e775141'
     
-    api_key = "7268667a6a72757032314d4e77533141"
+    else:
+        api_key = "73634352447275703130335464717766"
+    
     count = 0
-    station_info = '길동'
     
-    url = 'http://swopenAPI.seoul.go.kr/api/subway/' + api_key + '/json/realtimeStationArrival/0/10/' + station_info
-    task1 = asyncio.create_task(request(url=url,method='GET'))
-    await task1
+    
+    url = f'http://swopenAPI.seoul.go.kr/api/subway/{api_key}/json/realtimeStationArrival/0/10/{station_info}'
+    await request(url=url,method='GET')
+    await asyncio.sleep(5)
+    return
 
 
-async def main():
-    Element('arvlCd').element.text =2222
+async def main(key):
     while True:
-        await 지하철()
-        await asyncio.sleep(5)
-print(1)
-
-asyncio.ensure_future(main())
-
+        
+        if close_token == 1:
+            token_html.element.innerText ="종료"
+        elif close_token != 1:
+            token_html.element.innerText ="실시간"
+        if key == global_key:
+            tt.element.innerText ="서비스를 이용하시려면 버튼을 눌러주세요."    
+            if close_token!= 1:
+                await 지하철()
+                
+            else:
+                break
+        else:
+            break
+      
+    return
 
 
 
