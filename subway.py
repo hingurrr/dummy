@@ -16,6 +16,7 @@ count_list = []
 output_text = Element("output_text")
 count_num = 1
 close_token = 0
+error_code = Element("error_code")
 # html 에서 생성한 ID "add_text" 의 버튼이 눌렸을 때 호출될 함수
 def close_act(*args): 
     global close_token
@@ -177,8 +178,10 @@ async def main(key):
         if key == global_key:
             tt.element.innerText ="서비스를 이용하시려면 버튼을 눌러주세요."    
             if close_token!= 1:
-                await 지하철()
-                
+                try: 
+                    await 지하철()
+                except Exception as e:
+                    error_code.element.innerText = str(e)
             else:
                 break
         else:
