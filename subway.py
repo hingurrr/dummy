@@ -79,57 +79,61 @@ async def request(url: str, method: str = "GET", body: Optional[str] = None,
     if headers:
         kwargs["headers"] = headers
     kwargs.update(fetch_kwargs)
+    try:
+        error_code.element.innerText = url
+        response = await pyfetch(url=url, method="GET")
+       
+        # response = await pyfetch(url="https://jsonplaceholder.typicode.com/todos/1", method="GET")
+        output = await response.json()
 
-    response = await pyfetch(url=url, method=method)
-    # response = await pyfetch(url="https://jsonplaceholder.typicode.com/todos/1", method="GET")
-    output = await response.json()
-
-    
-    #파싱
-    
-    json_data = output['realtimeArrivalList']
-    
-    for x in json_data:
-        trainLineNm = x['trainLineNm']  # 도착지방면
-        location = trainLineNm.find('-')
-        trainLineNm = trainLineNm[0:location - 1]
-        subwayList = x['subwayList']  # 호선 구분 100+x
-        statnNm = x['statnNm']  # 지하철역명
         
-        ordkey = x[
-            'ordkey']  # 도착예정열차순번(상하행코드(1자리), 순번(첫번째, 두번째 열차 , 1자리), 첫번째 도착예정 정류장 - 현재 정류장(3자리), 목적지 정류장, 급행여부(1자리))
-        barvlDt = x['barvlDt']  # 도착남은시간 (단위 : 초)
-        btrainNo = x['btrainNo']  # 열차번호
-        arvlMsg2 = x['arvlMsg2']  # 도착예정
-        arvlMsg3 = x['arvlMsg3']  # 현재위치
-        arvlCd = x['arvlCd']  # (0:진입, 1:도착, 2:출발, 3:전역출발, 4:전역진입, 5:전역도착, 99:운행중)
-        recptnDt = x['recptnDt']  # 정보 조회시간
-        arvlCd = list[arvlCd]
-
-        year = recptnDt[0:4]
-        month = recptnDt[5:7]
-        day = recptnDt[8:10]
-        hour = recptnDt[11:13]
-        min = recptnDt[14:16]
-        sec = recptnDt[17:19]
-        past = datetime.datetime(int(year), int(month), int(day), int(hour), int(min), int(sec))
-        num_subway = ordkey[1:2]
-        diff = now - past
-        # seconds 통해 시간 차이 정보를 초 단위로 가져올 수 있다.
+        #파싱
         
-        if ordkey[0:1] == find_data[station_info]:
-            if num_subway=="1":
-            # 상행
+        json_data = output['realtimeArrivalList']
+        
+        for x in json_data:
+            trainLineNm = x['trainLineNm']  # 도착지방면
+            location = trainLineNm.find('-')
+            trainLineNm = trainLineNm[0:location - 1]
+            subwayList = x['subwayList']  # 호선 구분 100+x
+            statnNm = x['statnNm']  # 지하철역명
             
-                output = "\n"+ trainLineNm, num_subway + '번째열차\n남은 예정시간 :', str(int(barvlDt) - diff.seconds) + "초\n",arvlMsg2, "\n현재위치 :", arvlMsg3, "\n열차 상황 :", arvlCd
-                left_time = str(int(barvlDt) - diff.seconds) + "초"
-                left_time_1 = Element('left_time')
-                left_time_1.element.text =left_time
-                # st_info = Element('station_info').element.text =station_info
-                arvlCd_html = Element('arvlCd').element.text =arvlCd
-                arvlMsg3_html = Element('arvlMsg3').element.text =arvlMsg3
-                tt.element.innerText =arvlMsg2           
-    return
+            ordkey = x[
+                'ordkey']  # 도착예정열차순번(상하행코드(1자리), 순번(첫번째, 두번째 열차 , 1자리), 첫번째 도착예정 정류장 - 현재 정류장(3자리), 목적지 정류장, 급행여부(1자리))
+            barvlDt = x['barvlDt']  # 도착남은시간 (단위 : 초)
+            btrainNo = x['btrainNo']  # 열차번호
+            arvlMsg2 = x['arvlMsg2']  # 도착예정
+            arvlMsg3 = x['arvlMsg3']  # 현재위치
+            arvlCd = x['arvlCd']  # (0:진입, 1:도착, 2:출발, 3:전역출발, 4:전역진입, 5:전역도착, 99:운행중)
+            recptnDt = x['recptnDt']  # 정보 조회시간
+            arvlCd = list[arvlCd]
+
+            year = recptnDt[0:4]
+            month = recptnDt[5:7]
+            day = recptnDt[8:10]
+            hour = recptnDt[11:13]
+            min = recptnDt[14:16]
+            sec = recptnDt[17:19]
+            past = datetime.datetime(int(year), int(month), int(day), int(hour), int(min), int(sec))
+            num_subway = ordkey[1:2]
+            diff = now - past
+            # seconds 통해 시간 차이 정보를 초 단위로 가져올 수 있다.
+            
+            if ordkey[0:1] == find_data[station_info]:
+                if num_subway=="1":
+                # 상행
+                
+                    output = "\n"+ trainLineNm, num_subway + '번째열차\n남은 예정시간 :', str(int(barvlDt) - diff.seconds) + "초\n",arvlMsg2, "\n현재위치 :", arvlMsg3, "\n열차 상황 :", arvlCd
+                    left_time = str(int(barvlDt) - diff.seconds) + "초"
+                    left_time_1 = Element('left_time')
+                    left_time_1.element.text =left_time
+                    # st_info = Element('station_info').element.text =station_info
+                    arvlCd_html = Element('arvlCd').element.text =arvlCd
+                    arvlMsg3_html = Element('arvlMsg3').element.text =arvlMsg3
+                    tt.element.innerText =arvlMsg2           
+        return
+    except Exception as e:
+        error_code.element.innerText = f"json err: {str(e)}{url}"
 def counting_used():
     day = datetime.datetime.now().day
     try:
@@ -137,23 +141,25 @@ def counting_used():
             change_x = count_list[1]
             change_x += 1
             count_list[1] = change_x           
-            if change_x >= 1000:
-                api_token= 2
-                return api_token
+            return count_list[1]
         elif count_list[0]!=day:
             del count_list[1]
             del count_list[0]
             count_list.append(day)
             count_list.append(1)
+            return count_list[1]
     except IndexError as e:
         count_list.append(day)
         count_list.append(1)
+        error_code.element.innerText = f"count {str(e)}{count_list}"
+        return count_list[1]
 
 async def 지하철():
     import datetime
     
     api_token = counting_used()
-    if api_token == 2:
+    error_code.element.innerText = api_token
+    if api_token >= 1000:
         api_key = '7268667a6a72757032314d4e775141'
     
     else:
