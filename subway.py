@@ -187,7 +187,7 @@ async def main(key):
                 try: 
                     await 지하철()
                 except Exception as e:
-                    error_code.element.innerText = str(e)
+                    error_code.element.innerText = f"지하철 오류 {str(e)}"
             else:
                 break
         else:
