@@ -175,7 +175,6 @@ async def main():
                     Element('left_time').element.innerText = ""
                     Element('arvlCd').element.innerText = ""
                     Element('arvlMsg3').element.innerText = ""
-                    Element('token').element.innerText = ""
                     error_code.element.innerText = ""
 
                 await asyncio.sleep(0.5)
