@@ -50,7 +50,7 @@ def function_add_text(*args):
     if count_num%2==0:
         next_data = "중곡"
     bt_1.element.innerText = f"{next_data}역 확인하기"
-    
+     
     asyncio.ensure_future(main(key))
 # 함수가 실행된 후 input_text의 값을 초기화
    
