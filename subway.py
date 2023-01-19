@@ -12,15 +12,21 @@ bt_1 = Element('add_text')
 count_list = []
 output_text = Element("output_text")
 count_num = 1
-close_token = 1
+close_token = 0
 error_code = Element("error_code")
+time_counter = Element("time_counter")
+station_info = "길동"
+이용횟수 = 47
+num_time =1
 
 
 # html 에서 생성한 ID "add_text" 의 버튼이 눌렸을 때 호출될 함수
 
-async def time_count():
-    for count_num in range(5,0,-1):
-        error_code.element.innerText = f"{count_num}초 후 {station_info}역 정보를 가져옵니다."
+async def time_count(num_time):
+    if num_time ==1:
+        return
+    for count_num in range(num_time,0,-1):
+        time_counter.element.innerText = f"{count_num}초 후 {station_info}역 정보를 가져옵니다."
         await asyncio.sleep(1)
         
 
@@ -58,7 +64,6 @@ async def request(url) -> FetchResponse:
                 '4': '전역진입', '5': '전역도착', '99': '운행중'}
     find_data = {'길동': '0', '중곡': '1','군자(능동)':'1'}
     try:
-        
         response = await pyfetch(url=url, method="GET")
     
     # response = await pyfetch(url="https://jsonplaceholder.typicode.com/todos/1", method="GET")
@@ -161,16 +166,25 @@ async def main():
             if close_token == 1:
                 global 이용횟수
                 이용횟수 = 0
+                global num_time
+                num_time = 5
+                if token_html.element.innerText !="종료":
+                    token_html.element.innerText ="종료"
+                    tt.element.innerText ="서비스를 이용하시려면 버튼을 눌러주세요."
+                    time_counter.element.innerText = ""
+                    Element('left_time').element.innerText = ""
+                    Element('arvlCd').element.innerText = ""
+                    Element('arvlMsg3').element.innerText = ""
+                    Element('token').element.innerText = ""
+                    error_code.element.innerText = ""
 
-                token_html.element.innerText ="종료"
-                tt.element.innerText ="서비스를 이용하시려면 버튼을 눌러주세요."
-                await asyncio.sleep(1)
-                pass
+                await asyncio.sleep(0.5)
             elif close_token == 0:
                 token_html.element.innerText ="실시간"
                 try:
+                    
                     await 지하철()
-                    await time_count()
+                    await time_count(num_time)
                     
                 except Exception as e:
                     error_code.element.innerText = f"지하철 오류 {str(e)}{close_token}"
@@ -179,6 +193,10 @@ async def main():
         error_code.element.innerText = f"main error{str(e)}"
             
 asyncio.ensure_future(main())
+# run_code()
+# 지하철이 끝날 때까지 기다림
+                       # 이벤트 루프를 닫음 
+# # asyncio.ensure_future(지하철())
 
 
  
