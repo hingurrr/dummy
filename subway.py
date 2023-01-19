@@ -26,7 +26,7 @@ async def time_count(num_time):
     if num_time ==1:
         return
     for count_num in range(num_time,0,-1):
-        time_counter.element.innerText = f"{count_num}초 후 {station_info}역 정보를 가져옵니다."
+        time_counter.write(f"{count_num}초 후 {station_info}역 정보를 가져옵니다.")
         await asyncio.sleep(1)
         
 
@@ -49,11 +49,11 @@ def function_add_text(*args:Any):
     if count_num%2!=0:
         station_info = "중곡"
         next_data="길동"
-    output_text.element.innerText = station_info
+    output_text.write(station_info)
 
     if count_num%2==0:
         next_data = "중곡"
-    bt_1.element.innerText = f"{next_data}역 확인하기"
+    bt_1.write(f"{next_data}역 확인하기")
 
     
 # 함수가 실행된 후 input_text의 값을 초기화
@@ -111,10 +111,10 @@ async def request(url) -> FetchResponse:
                     # st_info = Element('station_info').element.text =station_info
                     arvlCd_html = Element('arvlCd').element.text =arvlCd
                     arvlMsg3_html = Element('arvlMsg3').element.text =arvlMsg3
-                    tt.element.innerText =arvlMsg2           
+                    tt.write(arvlMsg2)          
         return
     except Exception as e:
-        error_code.element.innerText = f"json err: {str(e)}"
+        error_code.write(f"json err: {str(e)}")
 def counting_used():
     day = datetime.datetime.now().day
     try:
@@ -168,28 +168,32 @@ async def main():
                 이용횟수 = 0
                 global num_time
                 num_time = 5
-                if token_html.element.innerText !="종료":
-                    token_html.element.innerText ="종료"
-                    tt.element.innerText ="서비스를 이용하시려면 버튼을 눌러주세요."
-                    time_counter.element.innerText = ""
-                    Element('left_time').element.innerText = ""
-                    Element('arvlCd').element.innerText = ""
-                    Element('arvlMsg3').element.innerText = ""
-                    error_code.element.innerText = ""
-
-                await asyncio.sleep(0.5)
+                if token_html != "종료":
+                    token_html.write("종료")
+                    tt.write("서비스를 이용하시려면 버튼을 눌러주세요.")
+                    time_counter.clear()
+                    el_left_time = Element('left_time')
+                    el_left_time.clear()
+                    el_arvlCd = Element('arvlCd')
+                    el_arvlCd.clear()
+                    el_arvlMsg3 = Element('arvlMsg3')
+                    el_arvlMsg3.clear()
+                    el_error_code= Element('error_code')
+                    el_error_code.clear()
+                   
+                await asyncio.sleep(0.3)
             elif close_token == 0:
-                token_html.element.innerText ="실시간"
+                token_html.write("실시간")
                 try:
                     
                     await 지하철()
                     await time_count(num_time)
                     
                 except Exception as e:
-                    error_code.element.innerText = f"지하철 오류 {str(e)}{close_token}"
+                    error_code.write(f"지하철 오류 {str(e)}{close_token}")
                     await asyncio.sleep(1)
     except Exception as e:
-        error_code.element.innerText = f"main error{str(e)}"
+        error_code.write(f"main error{str(e)}")
             
 asyncio.ensure_future(main())
 # run_code()
