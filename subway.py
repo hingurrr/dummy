@@ -73,6 +73,7 @@ async def req_json(url):
         if 이용횟수 < 48:
     # response = await pyfetch(url="https://jsonplaceholder.typicode.com/todos/1", method="GET")
             out_data = await response.json()
+            error_code.element.innerText = out_data
             #파싱
             
             json_data = out_data['realtimeArrivalList']
