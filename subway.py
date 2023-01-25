@@ -63,13 +63,12 @@ def function_add_text(*args:Any):
 # 함수가 실행된 후 input_text의 값을 초기화
 
 async def req_json(url):
-    url = url.lower()
     now = datetime.datetime.now()
     list = {'0': station_info + '역 진입', '1': station_info + '역 도착', '2': station_info + '역 출발', '3': '전역출발',
                 '4': '전역진입', '5': '전역도착', '99': '운행중'}
     find_data = {'길동': '0', '중곡': '1','군자(능동)':'1'}
     try:
-        response = await pyfetch(url=str(url), method='GET')
+        response = await pyodide.http.pyfetch(url, method='GET')
 
         if 이용횟수 < 48:
     # response = await pyfetch(url="https://jsonplaceholder.typicode.com/todos/1", method="GET")
@@ -121,7 +120,6 @@ async def req_json(url):
         
     except Exception as e:
         error_code.element.innerText =(f"json err: {str(e)}")
-        tt.element.innerText = url
 def counting_used():
     day = datetime.datetime.now().day
     try:
@@ -157,6 +155,7 @@ async def 지하철():
     
     
     url = f'http://swopenAPI.seoul.go.kr/api/subway/{api_key}/json/realtimeStationArrival/0/10/{station_info}'
+    error_code.element.innerText = url
     
     global 이용횟수
     global close_token
