@@ -1,5 +1,6 @@
 #지하철
 import asyncio
+import pyodide
 from pyodide.http import pyfetch, FetchResponse
 from typing import Optional, Any
 import json
@@ -15,18 +16,17 @@ count_num = 1
 close_token = 0
 error_code = Element("error_code")
 time_counter = Element("time_counter")
-station_info = "길동"
-이용횟수 = 50
+station_info = "중곡"
+이용횟수 = 48
 num_time =1
 
 
 # html 에서 생성한 ID "add_text" 의 버튼이 눌렸을 때 호출될 함수
 
 async def time_count(num_time):
-    if num_time ==1:
-        return
+       
     for count_num in range(num_time,0,-1):
-        time_counter.write(f"{count_num}초 후 {station_info}역 정보를 가져옵니다.")
+        time_counter.element.innerText = (f"{count_num}초 후 {station_info}역 정보를 가져옵니다.")
         if count_num == 1:
             break
         await asyncio.sleep(1)
@@ -51,41 +51,15 @@ def function_add_text(*args:Any):
     if count_num%2!=0:
         station_info = "중곡"
         next_data="길동"
-    output_text.write(station_info)
+    output_text.element.innerText =(station_info)
 
     if count_num%2==0:
         next_data = "중곡"
-    bt_1.write(f"{next_data}역 확인하기")
+    bt_1.element.innerText =(f"{next_data}역 확인하기")
 
     
 
-#requst model
-async def request(url: str, method: str = "GET", body: Optional[str] = None,
-                  headers: Optional[dict[str, str]] = None, **fetch_kwargs: Any) -> FetchResponse:
-    try:
-        """
-        Async request function. Pass in Method and make sure to await!
-        Parameters:
-            url: str = URL to make request to
-            method: str = {"GET", "POST", "PUT", "DELETE"} from `JavaScript` global fetch())
-            body: str = body as json string. Example, body=json.dumps(my_dict)
-            headers: dict[str, str] = header as dict, will be converted to string...
-                Example, headers=json.dumps({"Content-Type": "application/json"})
-            fetch_kwargs: Any = any other keyword arguments to pass to `pyfetch` (will be passed to `fetch`)
-        Return:
-            response: pyodide.http.FetchResponse = use with .status or await.json(), etc.
-        """
-        kwargs = {"method": method, "mode": "cors"}  # CORS: https://en.wikipedia.org/wiki/Cross-origin_resource_sharing
-        if body and method not in ["GET", "HEAD"]:
-            kwargs["body"] = body
-        if headers:
-            kwargs["headers"] = headers
-        kwargs.update(fetch_kwargs)
 
-        response = await pyfetch(url, **kwargs)
-        return response  
-    except Exception as e:
-        error_code.write(f"request err: {str(e)}") 
 # 함수가 실행된 후 input_text의 값을 초기화
 
 async def req_json(url):
@@ -94,9 +68,9 @@ async def req_json(url):
                 '4': '전역진입', '5': '전역도착', '99': '운행중'}
     find_data = {'길동': '0', '중곡': '1','군자(능동)':'1'}
     try:
-        response = await request(url, method="GET")
+        response = await pyodide.http.pyfetch(url, method='GET')
 
-        if 이용횟수 <= 48:
+        if 이용횟수 < 48:
     # response = await pyfetch(url="https://jsonplaceholder.typicode.com/todos/1", method="GET")
             out_data = await response.json()
             #파싱
@@ -142,10 +116,10 @@ async def req_json(url):
                         # st_info = Element('station_info').element.text =station_info
                         arvlCd_html = Element('arvlCd').element.text =arvlCd
                         arvlMsg3_html = Element('arvlMsg3').element.text =arvlMsg3
-                        tt.write(arvlMsg2)          
-        return
+                        tt.element.innerText =(arvlMsg2)          
+        
     except Exception as e:
-        error_code.write(f"json err: {str(e)}")
+        error_code.element.innerText =(f"json err: {str(e)}")
 def counting_used():
     day = datetime.datetime.now().day
     try:
@@ -181,55 +155,59 @@ async def 지하철():
     
     
     url = f'http://swopenAPI.seoul.go.kr/api/subway/{api_key}/json/realtimeStationArrival/0/10/{station_info}'
-    await req_json(url)
+    
     global 이용횟수
     global close_token
-    
+    await req_json(url)
     이용횟수 +=1
-    if 이용횟수 >=48:
+    if 이용횟수 >48:
         close_token = 1
-    return
+    else:
+        global num_time
+        num_time = 5
+        
+
 
 async def cl():
     global 이용횟수
     이용횟수 = 0
-    global num_time
-    num_time = 5
-    if token_html != "종료":
-        token_html.write("종료")
-        tt.write("서비스를 이용하시려면 버튼을 눌러주세요.")
+  
+    if token_html.element.innerText != "종료":
+        token_html.element.innerText =("종료")
+        tt.element.innerText =("서비스를 이용하시려면 버튼을 눌러주세요.")
         time_counter.clear()
         Element('left_time').clear()
         Element('arvlCd').clear()
         Element('arvlMsg3').clear()
         Element('error_code').clear()
+        bt_1.element.innerText = ('시작')
         
     
     
     
 async def run_prec():
-    token_html.write("실시간")
+    token_html.element.innerText =("실시간")
     try:
         await 지하철()
         await time_count(num_time)
         
     except Exception as e:
-        error_code.write(f"지하철 오류 {str(e)}{close_token}")
+        error_code.element.innerText =(f"지하철 오류 {str(e)}{close_token}")
         await asyncio.sleep(1)
 
 async def main():
     try:
         while True:
-            await asyncio.sleep(0.7)
+            await asyncio.sleep(0.3)
            
             if close_token == 1:
                 await cl()   
-                bt_1.write('시작')  
+                  
             elif close_token == 0:
                 await run_prec()
     except Exception as e:
-        error_code.write(f"main error{str(e)}")
-            
+        error_code.element.innerText =(f"main error{str(e)}")
+
 asyncio.ensure_future(main())
 # run_code()
 # 지하철이 끝날 때까지 기다림
