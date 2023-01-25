@@ -63,6 +63,7 @@ def function_add_text(*args:Any):
 # 함수가 실행된 후 input_text의 값을 초기화
 
 async def req_json(url):
+    url = url.lower()
     now = datetime.datetime.now()
     list = {'0': station_info + '역 진입', '1': station_info + '역 도착', '2': station_info + '역 출발', '3': '전역출발',
                 '4': '전역진입', '5': '전역도착', '99': '운행중'}
