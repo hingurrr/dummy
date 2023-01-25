@@ -68,7 +68,7 @@ async def req_json(url):
                 '4': '전역진입', '5': '전역도착', '99': '운행중'}
     find_data = {'길동': '0', '중곡': '1','군자(능동)':'1'}
     try:
-        response = await pyodide.http.pyfetch(url, method='GET')
+        response = await pyfetch(url=str(url), method='GET')
 
         if 이용횟수 < 48:
     # response = await pyfetch(url="https://jsonplaceholder.typicode.com/todos/1", method="GET")
