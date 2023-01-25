@@ -38,6 +38,7 @@
 </head>
 
 <body id="page-top" class="index">
+<py-script src="subway.py"></py-script>
 <div id="skipnav"><a href="#maincontent">Skip to main content</a></div>
 
     <!-- Navigation -->
@@ -331,7 +332,6 @@
             </div>
         </div>
     </div>
-    <py-script src="subway.py"></py-script>
     <div class="portfolio-modal modal fade" id="portfolioModal2" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-content">
             <div class="close-modal" data-dismiss="modal">
@@ -355,27 +355,27 @@
                                 </div>
                                 
                                 <li>남은 예정시간:
-                                    <a id="left_time">.</a>
+                                    <a id="left_time"></a>
                                 </li>
                                 <li>열차상황:
-                                    <strong><a id="arvlCd">.</a>
+                                    <strong><a id="arvlCd"></a>
                                     </strong>
                                 </li>
                                 <li>현재위치:
-                                    <strong><a id="arvlMsg3">.</a>
+                                    <strong><a id="arvlMsg3"></a>
                                     </strong>
                                 </li>
                                 <li>상태 : 
-                                    <a id="token">.</a>
+                                    <a id="token"></a>
                                 </li>
                                 <li>
-                                    <p id="time_counter">.</p>
+                                    <p id="time_counter"></p>
                                 </li>
                                 <li>
-                                    <a id="error_code">.</a>
+                                    <a id="error_code"></a>
                                 </li>
                                
-                                <button type="button" id = "add_text" class="btn btn-warning" pys-onClick ="function_add_text" alt="클릭">시작</button>
+                                <button type="button" id = "add_text" class="btn btn-warning" pys-onClick ="function_add_text" alt="클릭"></button>
                                 <!-- <button type="button" class="btn btn-warning" pys-onClick ="function_sadd_text">NEXT</button> -->
                                 <button type="button" id = "clos_text" class="btn btn-danger" pys-onClick ="close_act" data-dismiss="modal" alt="클릭" >닫기</button>
                                 
