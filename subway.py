@@ -114,7 +114,7 @@ async def request(url) -> FetchResponse:
                     tt.write(arvlMsg2)          
         return
     except Exception as e:
-        error_code.write(f"json err: {str(e)}")
+        error_code.write(f"json err: {e}")
 def counting_used():
     day = datetime.datetime.now().day
     try:
