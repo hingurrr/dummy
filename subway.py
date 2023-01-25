@@ -120,6 +120,7 @@ async def req_json(url):
         
     except Exception as e:
         error_code.element.innerText =(f"json err: {str(e)}")
+        tt.element.innerText = url
 def counting_used():
     day = datetime.datetime.now().day
     try:
