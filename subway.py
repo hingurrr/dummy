@@ -155,7 +155,7 @@ async def 지하철():
     count = 0
     
     
-    url = f'//swopenAPI.seoul.go.kr/api/subway/{api_key}/json/realtimeStationArrival/0/10/{station_info}'
+    url = f'http://swopenAPI.seoul.go.kr/api/subway/{api_key}/json/realtimeStationArrival/0/10/{station_info}'
     error_code.element.innerText = url
     
     global 이용횟수
